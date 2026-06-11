@@ -480,14 +480,14 @@ if(isset($_POST['change_password'])){
                     <small style="color:#999; font-size:11px;">Email tidak dapat diubah</small>
                 </div>
                 
-                <div class="form-group">
-                    <label><i class="fa-solid fa-phone"></i> Nomor HP</label>
-                    <input type="tel" name="no_hp" value="<?php echo htmlspecialchars($user['no_hp']); ?>" placeholder="081234567890" required>
+              <div class="form-group">
+                 <label><i class="fa-solid fa-phone"></i> Nomor HP</label>
+                <input type="tel" name="no_hp" value="<?php echo htmlspecialchars($user['no_hp'] ?? ''); ?>" placeholder="081234567890" required>
                 </div>
                 
                 <div class="form-group">
-                    <label><i class="fa-solid fa-location-dot"></i> Alamat Lengkap</label>
-                    <textarea name="alamat" rows="4" placeholder="Jl. Contoh No. 123, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos" required><?php echo htmlspecialchars($user['alamat']); ?></textarea>
+                     <label><i class="fa-solid fa-location-dot"></i> Alamat Lengkap</label>
+                     <textarea name="alamat" rows="4" placeholder="Jl. Contoh No. 123, RT/RW, Kelurahan, Kecamatan, Kota, Kode Pos" required><?php echo htmlspecialchars($user['alamat'] ?? ''); ?></textarea>
                 </div>
                 
                 <button type="submit" name="update_profile" class="btn-primary">
