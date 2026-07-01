@@ -99,8 +99,8 @@ if(isset($_POST['checkout'])){
         try {
             $stmt_order = $conn->prepare("
                 INSERT INTO orders 
-                (user_id, total_harga, status, alamat, no_hp, ongkir, metode_pembayaran, created_at)
-                VALUES (?, ?, 'pending', ?, ?, ?, ?, NOW())
+                (user_id, toko_id, total_harga, status, alamat, no_hp, ongkir, metode_pembayaran, created_at)
+                VALUES (?, 2, ?, 'pending', ?, ?, ?, ?, NOW())
             ");
             $stmt_order->bind_param("iissss", $user_id, $total, $user['alamat'], $user['no_hp'], $ongkir, $payment);
             $stmt_order->execute();
