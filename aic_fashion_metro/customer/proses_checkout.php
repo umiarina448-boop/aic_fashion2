@@ -39,9 +39,9 @@ $total_final = $total + $ongkir;
 /* INSERT ORDER */
 mysqli_query($conn,"
 INSERT INTO orders 
-(user_id, total_harga, status, alamat, no_hp, ongkir, metode_pembayaran)
+(user_id, toko_id, total_harga, status, alamat, no_hp, ongkir, metode_pembayaran)
 VALUES 
-('$user_id', '$total_final', 'pending', '{$user['alamat']}', '{$user['no_hp']}', '$ongkir', '$payment')
+('$user_id', 2, '$total_final', 'pending', '{$user['alamat']}', '{$user['no_hp']}', '$ongkir', '$payment')
 ");
 
 $order_id = mysqli_insert_id($conn);
