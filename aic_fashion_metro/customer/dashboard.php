@@ -426,7 +426,7 @@ $user_name = $user['nama'] ?? 'Pelanggan';
 
     <?php while($row = mysqli_fetch_assoc($produk)){ ?>
         <div class="card">
-            <img class="card-img" src="../uploads/<?php echo $row['gambar']; ?>" 
+          <img class="card-img" src="/uploads/<?php echo $row['gambar']; ?>"  
                  alt="<?php echo $row['nama_produk']; ?>"
                  onerror="this.src='https://placehold.co/400x400?text=No+Image'">
             <div class="card-content">
