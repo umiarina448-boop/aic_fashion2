@@ -9,41 +9,51 @@ if(!isset($_SESSION['user_id'])){
 
 $user_id = $_SESSION['user_id'];
 
+// TOKO AKTIF — sesuaikan dengan toko yang punya situs/deployment ini
+$toko_id = 1; // ganti ke 2 kalau ini deployment untuk Toko 2
+
 // URL service admin (tempat gambar produk disimpan)
 $admin_url = "https://admin-panel-production-9a90.up.railway.app";
 
 /* USER */
-$user = mysqli_fetch_assoc(mysqli_query($conn,"
-SELECT * FROM users WHERE id='$user_id'
-"));
+$stmt_user = $conn->prepare("SELECT * FROM users WHERE id = ?");
+$stmt_user->bind_param("i", $user_id);
+$stmt_user->execute();
+$user = $stmt_user->get_result()->fetch_assoc();
 
-/* SEARCH */
-$keyword = isset($_GET['q']) ? $_GET['q'] : '';
+/* SEARCH (difilter berdasarkan toko_id) */
+$keyword = isset($_GET['q']) ? trim($_GET['q']) : '';
 
 if($keyword != ""){
-    $produk = mysqli_query($conn,"
+    $stmt_produk = $conn->prepare("
         SELECT * FROM products
-        WHERE nama_produk LIKE '%$keyword%'
+        WHERE toko_id = ? AND nama_produk LIKE ?
         ORDER BY id DESC
     ");
+    $like_keyword = "%$keyword%";
+    $stmt_produk->bind_param("is", $toko_id, $like_keyword);
 } else {
-    $produk = mysqli_query($conn,"
+    $stmt_produk = $conn->prepare("
         SELECT * FROM products
+        WHERE toko_id = ?
         ORDER BY id DESC
     ");
+    $stmt_produk->bind_param("i", $toko_id);
 }
+$stmt_produk->execute();
+$produk = $stmt_produk->get_result();
 
 /* COUNT CART */
-$cart_result = mysqli_query($conn,"
-SELECT COUNT(*) as total FROM cart WHERE user_id='$user_id'
-");
-$cart_count = mysqli_fetch_assoc($cart_result)['total'] ?? 0;
+$stmt_cart = $conn->prepare("SELECT COUNT(*) as total FROM cart WHERE user_id = ?");
+$stmt_cart->bind_param("i", $user_id);
+$stmt_cart->execute();
+$cart_count = $stmt_cart->get_result()->fetch_assoc()['total'] ?? 0;
 
-/* COUNT ORDER */
-$order_result = mysqli_query($conn,"
-SELECT COUNT(*) as total FROM orders WHERE user_id='$user_id'
-");
-$order_count = mysqli_fetch_assoc($order_result)['total'] ?? 0;
+/* COUNT ORDER (difilter berdasarkan toko_id juga, kalau tabel orders punya kolom toko_id) */
+$stmt_order = $conn->prepare("SELECT COUNT(*) as total FROM orders WHERE user_id = ? AND toko_id = ?");
+$stmt_order->bind_param("ii", $user_id, $toko_id);
+$stmt_order->execute();
+$order_count = $stmt_order->get_result()->fetch_assoc()['total'] ?? 0;
 
 // Ambil nama user untuk sapaan
 $user_name = $user['nama'] ?? 'Pelanggan';
@@ -54,7 +64,7 @@ $user_name = $user['nama'] ?? 'Pelanggan';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beranda - AIC Fashion Metro</title>
+    <title>Beranda - AIC Fashion</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -348,7 +358,7 @@ $user_name = $user['nama'] ?? 'Pelanggan';
 
 <div class="navbar">
     <div class="logo">
-        <i class="fa-solid fa-bag-shopping"></i> AIC Fashion Metro
+        <i class="fa-solid fa-bag-shopping"></i> AIC Fashion 
     </div>
 
     <div class="search">
