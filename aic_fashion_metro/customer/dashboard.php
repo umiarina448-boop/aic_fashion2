@@ -70,7 +70,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
             padding-bottom: 40px;
         }
 
-        /* ========== NAVBAR ========== */
         .navbar {
             display: flex;
             align-items: center;
@@ -96,7 +95,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
             margin-right: 8px;
         }
 
-        /* ========== SEARCH ========== */
         .search form {
             display: flex;
         }
@@ -115,7 +113,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
             box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
         }
 
-        /* ========== MENU ========== */
         .menu {
             display: flex;
             align-items: center;
@@ -151,7 +148,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
             margin-left: 4px;
         }
 
-        /* ========== WELCOME SECTION ========== */
         .welcome {
             background: linear-gradient(135deg, #EE6C4D 0%, #ff8a65 100%);
             margin: 20px 30px;
@@ -198,7 +194,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
             opacity: 0.9;
         }
 
-        /* ========== SECTION TITLE ========== */
         .section-title {
             margin: 20px 30px 15px;
             font-size: 22px;
@@ -214,7 +209,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
             font-size: 24px;
         }
 
-        /* ========== PRODUK GRID ========== */
         .container {
             padding: 0 30px;
             display: grid;
@@ -288,7 +282,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
             color: white;
         }
 
-        /* ========== EMPTY STATE ========== */
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
@@ -309,7 +302,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
             font-size: 16px;
         }
 
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 800px) {
             .navbar {
                 flex-direction: column;
@@ -354,20 +346,17 @@ $user_name = $user['nama'] ?? 'Pelanggan';
 </head>
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="logo">
         <i class="fa-solid fa-bag-shopping"></i> AIC Fashion Metro
     </div>
 
-    <!-- SEARCH -->
     <div class="search">
         <form method="GET">
             <input type="text" name="q" placeholder="🔍 Cari produk, hijab, gamis..." value="<?php echo htmlspecialchars($keyword); ?>">
         </form>
     </div>
 
-    <!-- MENU -->
     <div class="menu">
         <a href="cart.php">
             <i class="fa-solid fa-cart-shopping"></i> Cart
@@ -393,7 +382,6 @@ $user_name = $user['nama'] ?? 'Pelanggan';
     </div>
 </div>
 
-<!-- WELCOME SECTION (biar ga kosong) -->
 <div class="welcome">
     <div>
         <h2><i class="fa-regular fa-hand-peace"></i> Halo, <?php echo htmlspecialchars($user_name); ?>!</h2>
@@ -411,13 +399,11 @@ $user_name = $user['nama'] ?? 'Pelanggan';
     </div>
 </div>
 
-<!-- SECTION TITLE -->
 <div class="section-title">
     <i class="fa-solid fa-fire-flame-curved"></i>
     <span><?php echo $keyword ? "Hasil pencarian: \"" . htmlspecialchars($keyword) . "\"" : "Produk Terbaru"; ?></span>
 </div>
 
-<!-- PRODUK GRID -->
 <div class="container">
     <?php if(mysqli_num_rows($produk) == 0){ ?>
         <div class="empty-state">
@@ -429,7 +415,7 @@ $user_name = $user['nama'] ?? 'Pelanggan';
 
     <?php while($row = mysqli_fetch_assoc($produk)){ ?>
         <div class="card">
-          <img class="card-img" src="<?php echo $admin_url; ?>/uploads/<?php echo htmlspecialchars($row['gambar']); ?>"  
+            <img class="card-img" src="<?php echo $admin_url; ?>/uploads/<?php echo htmlspecialchars($row['gambar']); ?>"
                  alt="<?php echo htmlspecialchars($row['nama_produk']); ?>"
                  onerror="this.src='https://placehold.co/400x400?text=No+Image'">
             <div class="card-content">
