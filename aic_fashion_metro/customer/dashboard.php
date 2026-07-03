@@ -1,4 +1,5 @@
 <?php
+$admin_url = "https://admin-panel-production-9a90.up.railway.app/"; // ganti sesuai domain admin Anda
 session_start();
 include "../config/database.php";
 
